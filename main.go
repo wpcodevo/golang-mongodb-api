@@ -9,9 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/wpcodevo/golang-mongodb/config"
-	"github.com/wpcodevo/golang-mongodb/controllers"
-	"github.com/wpcodevo/golang-mongodb/routes"
-	"github.com/wpcodevo/golang-mongodb/services"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -22,15 +19,6 @@ var (
 	ctx         context.Context
 	mongoclient *mongo.Client
 	redisclient *redis.Client
-
-	userService         services.UserService
-	UserController      controllers.UserController
-	UserRouteController routes.UserRouteController
-
-	authCollection      *mongo.Collection
-	authService         services.AuthService
-	AuthController      controllers.AuthController
-	AuthRouteController routes.AuthRouteController
 )
 
 func init() {
@@ -71,16 +59,6 @@ func init() {
 
 	fmt.Println("Redis client connected successfully...")
 
-	// Collections
-	authCollection = mongoclient.Database("golang_mongodb").Collection("users")
-	userService = services.NewUserServiceImpl(authCollection, ctx)
-	authService = services.NewAuthService(authCollection, ctx)
-	AuthController = controllers.NewAuthController(authService, userService)
-	AuthRouteController = routes.NewAuthRouteController(AuthController)
-
-	UserController = controllers.NewUserController(userService)
-	UserRouteController = routes.NewRouteUserController(UserController)
-
 	server = gin.Default()
 }
 
@@ -106,7 +84,5 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": value})
 	})
 
-	AuthRouteController.AuthRoute(router)
-	UserRouteController.UserRoute(router, userService)
 	log.Fatal(server.Run(":" + config.Port))
 }
