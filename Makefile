@@ -5,5 +5,5 @@ dev-down:
 	docker-compose down
 
 go:
-	go run main.go
+	air
 
