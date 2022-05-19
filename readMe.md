@@ -6,5 +6,4 @@
 
 ### 2. Golang & MongoDB: JWT Authentication and Authorization
 
-1.[Golang & MongoDB: JWT Authentication and Authorization
-](https://codevoweb.com/golang-mongodb-jwt-authentication-authorization)
+[Golang & MongoDB: JWT Authentication and Authorization](https://codevoweb.com/golang-mongodb-jwt-authentication-authorization)
