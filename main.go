@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/wpcodevo/golang-mongodb/config"
@@ -101,12 +102,18 @@ func main() {
 		panic(err)
 	}
 
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"http://localhost:8000", "http://localhost:3000"}
+	corsConfig.AllowCredentials = true
+
+	server.Use(cors.New(corsConfig))
+
 	router := server.Group("/api")
 	router.GET("/healthchecker", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": value})
 	})
 
-	AuthRouteController.AuthRoute(router)
+	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
 	log.Fatal(server.Run(":" + config.Port))
 }
