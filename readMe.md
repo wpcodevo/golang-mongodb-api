@@ -7,3 +7,7 @@
 ### 2. Golang & MongoDB: JWT Authentication and Authorization
 
 [Golang & MongoDB: JWT Authentication and Authorization](https://codevoweb.com/golang-mongodb-jwt-authentication-authorization)
+
+### 3. API with Golang + MongoDB: Send HTML Emails with Gomail
+
+[API with Golang + MongoDB: Send HTML Emails with Gomail](https://codevoweb.com/api-golang-mongodb-send-html-emails-gomail)
