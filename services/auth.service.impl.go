@@ -27,7 +27,7 @@ func (uc *AuthServiceImpl) SignUpUser(user *models.SignUpInput) (*models.DBRespo
 	user.UpdatedAt = user.CreatedAt
 	user.Email = strings.ToLower(user.Email)
 	user.PasswordConfirm = ""
-	user.Verified = true
+	user.Verified = false
 	user.Role = "user"
 
 	hashedPassword, _ := utils.HashPassword(user.Password)
