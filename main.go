@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -11,11 +12,15 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/wpcodevo/golang-mongodb/config"
 	"github.com/wpcodevo/golang-mongodb/controllers"
+	"github.com/wpcodevo/golang-mongodb/gapi"
+	"github.com/wpcodevo/golang-mongodb/pb"
 	"github.com/wpcodevo/golang-mongodb/routes"
 	"github.com/wpcodevo/golang-mongodb/services"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 var (
@@ -94,6 +99,33 @@ func main() {
 
 	defer mongoclient.Disconnect(ctx)
 
+	// startGinServer(config)
+	startGrpcServer(config)
+}
+
+func startGrpcServer(config config.Config) {
+	server, err := gapi.NewGrpcServer(config, authService, userService, authCollection)
+	if err != nil {
+		log.Fatal("cannot create grpc server: ", err)
+	}
+
+	grpcServer := grpc.NewServer()
+	pb.RegisterAuthServiceServer(grpcServer, server)
+	reflection.Register(grpcServer)
+
+	listener, err := net.Listen("tcp", config.GrpcServerAddress)
+	if err != nil {
+		log.Fatal("cannot create grpc server: ", err)
+	}
+
+	log.Printf("start gRPC server on %s", listener.Addr().String())
+	err = grpcServer.Serve(listener)
+	if err != nil {
+		log.Fatal("cannot create grpc server: ", err)
+	}
+}
+
+func startGinServer(config config.Config) {
 	value, err := redisclient.Get(ctx, "test").Result()
 
 	if err == redis.Nil {
