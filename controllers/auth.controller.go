@@ -276,3 +276,43 @@ func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 }
+
+func (ac *AuthController) ResetPassword(ctx *gin.Context) {
+	var userCredential *models.ResetPasswordInput
+	resetToken := ctx.Params.ByName("resetToken")
+
+	if err := ctx.ShouldBindJSON(&userCredential); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	if userCredential.Password != userCredential.PasswordConfirm {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Passwords do not match"})
+		return
+	}
+
+	hashedPassword, _ := utils.HashPassword(userCredential.Password)
+
+	passwordResetToken := utils.Encode(resetToken)
+
+	// Update User in Database
+	query := bson.D{{Key: "passwordResetToken", Value: passwordResetToken}}
+	update := bson.D{{Key: "$set", Value: bson.D{{Key: "password", Value: hashedPassword}}}, {Key: "$unset", Value: bson.D{{Key: "passwordResetToken", Value: ""}, {Key: "passwordResetAt", Value: ""}}}}
+	result, err := ac.collection.UpdateOne(ac.ctx, query, update)
+
+	if result.MatchedCount == 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "success", "message": "Token is invalid or has expired"})
+		return
+	}
+
+	if err != nil {
+		ctx.JSON(http.StatusForbidden, gin.H{"status": "success", "message": err.Error()})
+		return
+	}
+
+	ctx.SetCookie("access_token", "", -1, "/", "localhost", false, true)
+	ctx.SetCookie("refresh_token", "", -1, "/", "localhost", false, true)
+	ctx.SetCookie("logged_in", "", -1, "/", "localhost", false, true)
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "Password data updated successfully"})
+}
