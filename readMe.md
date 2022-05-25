@@ -11,3 +11,7 @@
 ### 3. API with Golang + MongoDB: Send HTML Emails with Gomail
 
 [API with Golang + MongoDB: Send HTML Emails with Gomail](https://codevoweb.com/api-golang-mongodb-send-html-emails-gomail)
+
+### 4. API with Golang, Gin Gonic & MongoDB: Forget/Reset Password
+
+[API with Golang, Gin Gonic & MongoDB: Forget/Reset Password](https://codevoweb.com/api-golang-gin-gonic-mongodb-forget-reset-password)
