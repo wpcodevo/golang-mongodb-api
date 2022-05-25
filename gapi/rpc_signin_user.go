@@ -10,8 +10,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) SignInUser(ctx context.Context, req *pb.SignInUserInput) (*pb.SignInUserResponse, error) {
-	user, err := server.userService.FindUserByEmail(req.GetEmail())
+func (authServer *AuthServer) SignInUser(ctx context.Context, req *pb.SignInUserInput) (*pb.SignInUserResponse, error) {
+	user, err := authServer.userService.FindUserByEmail(req.GetEmail())
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 
@@ -36,14 +36,14 @@ func (server *Server) SignInUser(ctx context.Context, req *pb.SignInUserInput) (
 	}
 
 	// Generate Tokens
-	access_token, err := utils.CreateToken(server.config.AccessTokenExpiresIn, user.ID, server.config.AccessTokenPrivateKey)
+	access_token, err := utils.CreateToken(authServer.config.AccessTokenExpiresIn, user.ID, authServer.config.AccessTokenPrivateKey)
 	if err != nil {
 
 		return nil, status.Errorf(codes.PermissionDenied, err.Error())
 
 	}
 
-	refresh_token, err := utils.CreateToken(server.config.RefreshTokenExpiresIn, user.ID, server.config.RefreshTokenPrivateKey)
+	refresh_token, err := utils.CreateToken(authServer.config.RefreshTokenExpiresIn, user.ID, authServer.config.RefreshTokenPrivateKey)
 	if err != nil {
 		return nil, status.Errorf(codes.PermissionDenied, err.Error())
 	}

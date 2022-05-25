@@ -103,14 +103,31 @@ func main() {
 	startGrpcServer(config)
 }
 
+func allowedRoles() map[string][]string {
+	const userServicePath = "/pb.UserService/"
+	return map[string][]string{
+		userServicePath + "GetMe": {"user"},
+	}
+}
+
 func startGrpcServer(config config.Config) {
-	server, err := gapi.NewGrpcServer(config, authService, userService, authCollection)
+	authServer, err := gapi.NewGrpcAuthServer(config, authService, userService, authCollection)
 	if err != nil {
-		log.Fatal("cannot create grpc server: ", err)
+		log.Fatal("cannot create grpc authServer: ", err)
 	}
 
-	grpcServer := grpc.NewServer()
-	pb.RegisterAuthServiceServer(grpcServer, server)
+	userServer, err := gapi.NewGrpcUserServer(config, userService, authCollection)
+	if err != nil {
+		log.Fatal("cannot create grpc userServer: ", err)
+	}
+
+	interceptor := services.NewAuthInterceptor(allowedRoles(), &config, userService)
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(interceptor.Unary()),
+	)
+
+	pb.RegisterAuthServiceServer(grpcServer, authServer)
+	pb.RegisterUserServiceServer(grpcServer, userServer)
 	reflection.Register(grpcServer)
 
 	listener, err := net.Listen("tcp", config.GrpcServerAddress)

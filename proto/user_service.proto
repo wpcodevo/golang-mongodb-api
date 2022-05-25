@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package pb;
+
+import "user.proto";
+
+option go_package = "github.com/wpcodevo/golang-mongodb/pb";
+
+service UserService {
+  rpc GetMe(GetMeRequest) returns (UserResponse) {}
+}
+
+message GetMeRequest { string Id = 1; }
