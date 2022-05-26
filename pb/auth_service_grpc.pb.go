@@ -23,7 +23,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
 	SignUpUser(ctx context.Context, in *SignUpUserInput, opts ...grpc.CallOption) (*GenericResponse, error)
-	SignInUser(ctx context.Context, in *SignInUserInput, opts ...grpc.CallOption) (*SignInUserResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*GenericResponse, error)
 }
 
@@ -44,15 +43,6 @@ func (c *authServiceClient) SignUpUser(ctx context.Context, in *SignUpUserInput,
 	return out, nil
 }
 
-func (c *authServiceClient) SignInUser(ctx context.Context, in *SignInUserInput, opts ...grpc.CallOption) (*SignInUserResponse, error) {
-	out := new(SignInUserResponse)
-	err := c.cc.Invoke(ctx, "/pb.AuthService/SignInUser", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authServiceClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*GenericResponse, error) {
 	out := new(GenericResponse)
 	err := c.cc.Invoke(ctx, "/pb.AuthService/VerifyEmail", in, out, opts...)
@@ -67,7 +57,6 @@ func (c *authServiceClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequ
 // for forward compatibility
 type AuthServiceServer interface {
 	SignUpUser(context.Context, *SignUpUserInput) (*GenericResponse, error)
-	SignInUser(context.Context, *SignInUserInput) (*SignInUserResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*GenericResponse, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
@@ -78,9 +67,6 @@ type UnimplementedAuthServiceServer struct {
 
 func (UnimplementedAuthServiceServer) SignUpUser(context.Context, *SignUpUserInput) (*GenericResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUpUser not implemented")
-}
-func (UnimplementedAuthServiceServer) SignInUser(context.Context, *SignInUserInput) (*SignInUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SignInUser not implemented")
 }
 func (UnimplementedAuthServiceServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*GenericResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
@@ -116,24 +102,6 @@ func _AuthService_SignUpUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthService_SignInUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SignInUserInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServiceServer).SignInUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/pb.AuthService/SignInUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).SignInUser(ctx, req.(*SignInUserInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AuthService_VerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyEmailRequest)
 	if err := dec(in); err != nil {
@@ -162,10 +130,6 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SignUpUser",
 			Handler:    _AuthService_SignUpUser_Handler,
-		},
-		{
-			MethodName: "SignInUser",
-			Handler:    _AuthService_SignInUser_Handler,
 		},
 		{
 			MethodName: "VerifyEmail",
