@@ -15,3 +15,7 @@
 ### 4. API with Golang, Gin Gonic & MongoDB: Forget/Reset Password
 
 [API with Golang, Gin Gonic & MongoDB: Forget/Reset Password](https://codevoweb.com/api-golang-gin-gonic-mongodb-forget-reset-password)
+
+### 5. Build Golang gRPC Server and Client: SignUp User & Verify Email
+
+[Build Golang gRPC Server and Client: SignUp User & Verify Email](https://codevoweb.com/golang-grpc-server-and-client-signup-user-verify-email)
