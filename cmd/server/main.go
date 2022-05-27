@@ -37,6 +37,11 @@ var (
 	authService         services.AuthService
 	AuthController      controllers.AuthController
 	AuthRouteController routes.AuthRouteController
+
+	postService         services.PostService
+	PostController      controllers.PostController
+	postCollection      *mongo.Collection
+	PostRouteController routes.PostRouteController
 )
 
 func init() {
@@ -87,6 +92,11 @@ func init() {
 	UserController = controllers.NewUserController(userService)
 	UserRouteController = routes.NewRouteUserController(UserController)
 
+	postCollection = mongoclient.Database("golang_mongodb").Collection("posts")
+	postService = services.NewPostService(postCollection, ctx)
+	PostController = controllers.NewPostController(postService)
+	PostRouteController = routes.NewPostControllerRoute(PostController)
+
 	server = gin.Default()
 }
 
@@ -99,8 +109,8 @@ func main() {
 
 	defer mongoclient.Disconnect(ctx)
 
-	// startGinServer(config)
-	startGrpcServer(config)
+	startGinServer(config)
+	// startGrpcServer(config)
 }
 
 func startGrpcServer(config config.Config) {
@@ -154,5 +164,6 @@ func startGinServer(config config.Config) {
 
 	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
+	PostRouteController.PostRoute(router)
 	log.Fatal(server.Run(":" + config.Port))
 }

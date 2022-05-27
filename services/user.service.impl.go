@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/wpcodevo/golang-mongodb/models"
+	"github.com/wpcodevo/golang-mongodb/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -54,18 +55,8 @@ func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, er
 	return user, nil
 }
 
-func toDoc(v interface{}) (doc *bson.D, err error) {
-	data, err := bson.Marshal(v)
-	if err != nil {
-		return
-	}
-
-	err = bson.Unmarshal(data, &doc)
-	return
-}
-
 func (uc *UserServiceImpl) UpdateUserById(id string, data *models.UpdateInput) (*models.DBResponse, error) {
-	doc, err := toDoc(data)
+	doc, err := utils.ToDoc(data)
 	if err != nil {
 		return &models.DBResponse{}, err
 	}
@@ -80,20 +71,6 @@ func (uc *UserServiceImpl) UpdateUserById(id string, data *models.UpdateInput) (
 
 	fmt.Print(result.ModifiedCount)
 	if err != nil {
-		return &models.DBResponse{}, err
-	}
-
-	return &models.DBResponse{}, nil
-}
-
-func (uc *UserServiceImpl) UpdateOne(field string, value interface{}) (*models.DBResponse, error) {
-	query := bson.D{{Key: field, Value: value}}
-	update := bson.D{{Key: "$set", Value: bson.D{{Key: field, Value: value}}}}
-	result, err := uc.collection.UpdateOne(uc.ctx, query, update)
-
-	fmt.Print(result.ModifiedCount)
-	if err != nil {
-		fmt.Print(err)
 		return &models.DBResponse{}, err
 	}
 
