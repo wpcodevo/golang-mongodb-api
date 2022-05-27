@@ -99,15 +99,8 @@ func main() {
 
 	defer mongoclient.Disconnect(ctx)
 
-	// startGinServer(config)
-	startGrpcServer(config)
-}
-
-func allowedRoles() map[string][]string {
-	const userServicePath = "/pb.UserService/"
-	return map[string][]string{
-		userServicePath + "GetMe": {"user"},
-	}
+	startGinServer(config)
+	// startGrpcServer(config)
 }
 
 func startGrpcServer(config config.Config) {
@@ -121,10 +114,7 @@ func startGrpcServer(config config.Config) {
 		log.Fatal("cannot create grpc userServer: ", err)
 	}
 
-	interceptor := services.NewAuthInterceptor(allowedRoles(), &config, userService)
-	grpcServer := grpc.NewServer(
-		grpc.UnaryInterceptor(interceptor.Unary()),
-	)
+	grpcServer := grpc.NewServer()
 
 	pb.RegisterAuthServiceServer(grpcServer, authServer)
 	pb.RegisterUserServiceServer(grpcServer, userServer)

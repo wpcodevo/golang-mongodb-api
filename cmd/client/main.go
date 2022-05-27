@@ -23,11 +23,11 @@ func main() {
 	defer conn.Close()
 
 	// Sign Up
-	if 1 > 2 {
+	if false {
 		signUpUserClient := client.NewSignUpUserClient(conn)
 		newUser := &pb.SignUpUserInput{
-			Name:            "Micheal Smith",
-			Email:           "michealmith@gmail.com",
+			Name:            "Jane Smith",
+			Email:           "janesmith@gmail.com",
 			Password:        "password123",
 			PasswordConfirm: "password123",
 		}
@@ -35,18 +35,18 @@ func main() {
 	}
 
 	// Sign In
-	if 2 > 1 {
+	if true {
 		signInUserClient := client.NewSignInUserClient(conn)
 
 		credentials := &pb.SignInUserInput{
-			Email:    "michealmith@gmail.com",
+			Email:    "janesmith@gmail.com",
 			Password: "password123",
 		}
 		signInUserClient.SignInUser(credentials)
 	}
 
 	// Get Me
-	if 3 < 1 {
+	if false {
 
 		getMeClient := client.NewGetMeClient(conn)
 		id := &pb.GetMeRequest{

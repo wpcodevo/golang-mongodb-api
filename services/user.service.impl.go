@@ -70,6 +70,8 @@ func (uc *UserServiceImpl) UpdateUserById(id string, data *models.UpdateInput) (
 		return &models.DBResponse{}, err
 	}
 
+	fmt.Println(data)
+
 	obId, _ := primitive.ObjectIDFromHex(id)
 
 	query := bson.D{{Key: "_id", Value: obId}}
