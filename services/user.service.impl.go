@@ -54,15 +54,30 @@ func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, er
 	return user, nil
 }
 
-func (uc *UserServiceImpl) UpdateUserById(id string, field string, value string) (*models.DBResponse, error) {
-	userId, _ := primitive.ObjectIDFromHex(id)
-	query := bson.D{{Key: "_id", Value: userId}}
-	update := bson.D{{Key: "$set", Value: bson.D{{Key: field, Value: value}}}}
+func toDoc(v interface{}) (doc *bson.D, err error) {
+	data, err := bson.Marshal(v)
+	if err != nil {
+		return
+	}
+
+	err = bson.Unmarshal(data, &doc)
+	return
+}
+
+func (uc *UserServiceImpl) UpdateUserById(id string, data *models.UpdateInput) (*models.DBResponse, error) {
+	doc, err := toDoc(data)
+	if err != nil {
+		return &models.DBResponse{}, err
+	}
+
+	obId, _ := primitive.ObjectIDFromHex(id)
+
+	query := bson.D{{Key: "_id", Value: obId}}
+	update := bson.D{{Key: "$set", Value: doc}}
 	result, err := uc.collection.UpdateOne(uc.ctx, query, update)
 
 	fmt.Print(result.ModifiedCount)
 	if err != nil {
-		fmt.Print(err)
 		return &models.DBResponse{}, err
 	}
 

@@ -11,14 +11,14 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) VerifyEmail(ctx context.Context, req *pb.VerifyEmailRequest) (*pb.GenericResponse, error) {
+func (authServer *AuthServer) VerifyEmail(ctx context.Context, req *pb.VerifyEmailRequest) (*pb.GenericResponse, error) {
 	code := req.GetVerificationCode()
 
 	verificationCode := utils.Encode(code)
 
 	query := bson.D{{Key: "verificationCode", Value: verificationCode}}
 	update := bson.D{{Key: "$set", Value: bson.D{{Key: "verified", Value: true}, {Key: "updated_at", Value: time.Now()}}}, {Key: "$unset", Value: bson.D{{Key: "verificationCode", Value: ""}}}}
-	result, err := server.userCollection.UpdateOne(ctx, query, update)
+	result, err := authServer.userCollection.UpdateOne(ctx, query, update)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, err.Error())
 	}

@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (server *Server) SignUpUser(ctx context.Context, req *pb.SignUpUserInput) (*pb.GenericResponse, error) {
+func (authServer *AuthServer) SignUpUser(ctx context.Context, req *pb.SignUpUserInput) (*pb.GenericResponse, error) {
 	if req.GetPassword() != req.GetPasswordConfirm() {
 		return nil, status.Errorf(codes.InvalidArgument, "passwords do not match")
 	}
@@ -24,7 +24,7 @@ func (server *Server) SignUpUser(ctx context.Context, req *pb.SignUpUserInput) (
 		PasswordConfirm: req.GetPasswordConfirm(),
 	}
 
-	newUser, err := server.authService.SignUpUser(&user)
+	newUser, err := authServer.authService.SignUpUser(&user)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "email already exist") {
@@ -39,8 +39,12 @@ func (server *Server) SignUpUser(ctx context.Context, req *pb.SignUpUserInput) (
 
 	verificationCode := utils.Encode(code)
 
+	updateData := &models.UpdateInput{
+		VerificationCode: verificationCode,
+	}
+
 	// Update User in Database
-	server.userService.UpdateUserById(newUser.ID.Hex(), "verificationCode", verificationCode)
+	authServer.userService.UpdateUserById(newUser.ID.Hex(), updateData)
 
 	var firstName = newUser.Name
 
@@ -50,7 +54,7 @@ func (server *Server) SignUpUser(ctx context.Context, req *pb.SignUpUserInput) (
 
 	// 👇 Send Email
 	emailData := utils.EmailData{
-		URL:       server.config.Origin + "/verifyemail/" + code,
+		URL:       authServer.config.Origin + "/verifyemail/" + code,
 		FirstName: firstName,
 		Subject:   "Your account verification code",
 	}

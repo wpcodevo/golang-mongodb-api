@@ -43,6 +43,19 @@ type DBResponse struct {
 	UpdatedAt          time.Time          `json:"updated_at" bson:"updated_at"`
 }
 
+type UpdateInput struct {
+	Name               string    `json:"name" bson:"name" binding:"required"`
+	Email              string    `json:"email" bson:"email" binding:"required"`
+	Password           string    `json:"password" bson:"password" binding:"required,min=8"`
+	Role               string    `json:"role" bson:"role"`
+	VerificationCode   string    `json:"verificationCode,omitempty" bson:"verificationCode,omitempty"`
+	ResetPasswordToken string    `json:"resetPasswordToken,omitempty" bson:"resetPasswordToken,omitempty"`
+	ResetPasswordAt    time.Time `json:"resetPasswordAt,omitempty" bson:"resetPasswordAt,omitempty"`
+	Verified           bool      `json:"verified" bson:"verified"`
+	CreatedAt          time.Time `json:"created_at" bson:"created_at"`
+	UpdatedAt          time.Time `json:"updated_at" bson:"updated_at"`
+}
+
 // 👈 UserResponse struct
 type UserResponse struct {
 	ID        primitive.ObjectID `json:"id,omitempty" bson:"_id,omitempty"`

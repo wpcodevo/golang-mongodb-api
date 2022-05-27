@@ -63,8 +63,12 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 
 	verificationCode := utils.Encode(code)
 
+	updateData := &models.UpdateInput{
+		VerificationCode: verificationCode,
+	}
+
 	// Update User in Database
-	ac.userService.UpdateUserById(newUser.ID.Hex(), "verificationCode", verificationCode)
+	ac.userService.UpdateUserById(newUser.ID.Hex(), updateData)
 
 	var firstName = newUser.Name
 
