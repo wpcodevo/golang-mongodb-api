@@ -39,7 +39,7 @@ func (authServer *AuthServer) SignUpUser(ctx context.Context, req *pb.SignUpUser
 
 	verificationCode := utils.Encode(code)
 
-	updateData := &models.UpdateInput{
+	updateData := &models.UserUpdateInput{
 		VerificationCode: verificationCode,
 	}
 

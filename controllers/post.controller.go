@@ -69,6 +69,10 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 	post, err := pc.postService.FindPostById(postId)
 
 	if err != nil {
+		if strings.Contains(err.Error(), "Id exists") {
+			ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": err.Error()})
+			return
+		}
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}

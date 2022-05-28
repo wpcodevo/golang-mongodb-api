@@ -38,6 +38,7 @@ var (
 	AuthController      controllers.AuthController
 	AuthRouteController routes.AuthRouteController
 
+	// 👇 Add the Post Service, Controllers and Routes
 	postService         services.PostService
 	PostController      controllers.PostController
 	postCollection      *mongo.Collection
@@ -92,6 +93,7 @@ func init() {
 	UserController = controllers.NewUserController(userService)
 	UserRouteController = routes.NewRouteUserController(UserController)
 
+	// 👇 Add the Post Service, Controllers and Routes
 	postCollection = mongoclient.Database("golang_mongodb").Collection("posts")
 	postService = services.NewPostService(postCollection, ctx)
 	PostController = controllers.NewPostController(postService)
@@ -164,6 +166,7 @@ func startGinServer(config config.Config) {
 
 	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
+	// 👇 Evoke the PostRoute
 	PostRouteController.PostRoute(router)
 	log.Fatal(server.Run(":" + config.Port))
 }

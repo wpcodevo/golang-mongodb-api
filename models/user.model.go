@@ -27,8 +27,8 @@ type SignInInput struct {
 	Password string `json:"password" bson:"password" binding:"required"`
 }
 
-// 👈 DBResponse struct
-type DBResponse struct {
+// 👈 UserDBResponse struct
+type UserDBResponse struct {
 	ID                 primitive.ObjectID `json:"id" bson:"_id"`
 	Name               string             `json:"name" bson:"name"`
 	Email              string             `json:"email" bson:"email"`
@@ -43,7 +43,7 @@ type DBResponse struct {
 	UpdatedAt          time.Time          `json:"updated_at" bson:"updated_at"`
 }
 
-type UpdateInput struct {
+type UserUpdateInput struct {
 	Name               string    `json:"name,omitempty" bson:"name,omitempty"`
 	Email              string    `json:"email,omitempty" bson:"email,omitempty"`
 	Password           string    `json:"password,omitempty" bson:"password,omitempty"`
@@ -77,7 +77,7 @@ type ResetPasswordInput struct {
 	PasswordConfirm string `json:"passwordConfirm,omitempty" bson:"passwordConfirm,omitempty"`
 }
 
-func FilteredResponse(user *DBResponse) UserResponse {
+func FilteredUserResponse(user *UserDBResponse) UserResponse {
 	return UserResponse{
 		ID:        user.ID,
 		Email:     user.Email,

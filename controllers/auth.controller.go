@@ -63,7 +63,7 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 
 	verificationCode := utils.Encode(code)
 
-	updateData := &models.UpdateInput{
+	updateData := &models.UserUpdateInput{
 		VerificationCode: verificationCode,
 	}
 
@@ -204,8 +204,6 @@ func (ac *AuthController) VerifyEmail(ctx *gin.Context) {
 		ctx.JSON(http.StatusForbidden, gin.H{"status": "success", "message": "Could not verify email address"})
 		return
 	}
-
-	fmt.Println(result)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "Email verified successfully"})
 
