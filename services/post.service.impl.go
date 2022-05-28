@@ -91,6 +91,14 @@ func (p *PostServiceImpl) FindPostById(id string) (*models.DBPost, error) {
 }
 
 func (p *PostServiceImpl) FindPosts(page int, limit int) ([]*models.DBPost, error) {
+	if page == 0 {
+		page = 1
+	}
+
+	if limit == 0 {
+		limit = 10
+	}
+
 	skip := (page - 1) * limit
 
 	opt := options.FindOptions{}
