@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/wpcodevo/golang-mongodb/pb";
+
+message UpdatePostRequest {
+  string Id = 1;
+  UpdatePostBody post = 2;
+}
+
+message UpdatePostBody {
+  optional string Title = 1;
+  optional string Content = 2;
+  optional string Image = 3;
+  optional string User = 4;
+}

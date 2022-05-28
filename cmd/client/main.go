@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// Sign In
-	if true {
+	if false {
 		signInUserClient := client.NewSignInUserClient(conn)
 
 		credentials := &pb.SignInUserInput{
@@ -56,4 +56,68 @@ func main() {
 
 	}
 
+	// List Posts
+	if false {
+		listPostsClient := client.NewListPostsClient(conn)
+
+		var page int64 = 1
+		var limit int64 = 10
+		args := &pb.GetPostsRequest{
+			Page:  &page,
+			Limit: &limit,
+		}
+
+		listPostsClient.ListPosts(args)
+	}
+
+	// Create Post
+	if false {
+		createPostClient := client.NewCreatePostClient(conn)
+
+		args := &pb.CreatePostRequest{
+			Title:   "My second gRPC post with joy",
+			Content: "It's always good to learn new technologies",
+			User:    "62908e0a42a608d5aeae2f64",
+			Image:   "default.png",
+		}
+
+		createPostClient.CreatePost(args)
+	}
+
+	// Update Post
+	if false {
+		updatePostClient := client.NewUpdatePostClient(conn)
+
+		title := "My new updated title"
+		args := &pb.UpdatePostRequest{
+			Id: "629147ff3c92aed11d49394b",
+			Post: &pb.UpdatePostBody{
+				Title: &title,
+			},
+		}
+
+		updatePostClient.UpdatePost(args)
+	}
+
+	// Get Post
+	if true {
+		getPostClient := client.NewGetPostClient(conn)
+
+		args := &pb.PostRequest{
+			Id: "629169e00a6c7cfd24e2129d",
+		}
+
+		getPostClient.GetPost(args)
+	}
+
+	// Delete Post
+	if false {
+		deletePostClient := client.NewDeletePostClient(conn)
+
+		args := &pb.PostRequest{
+			Id: "629147ff3c92aed11d49394b",
+		}
+
+		deletePostClient.DeletePost(args)
+	}
 }

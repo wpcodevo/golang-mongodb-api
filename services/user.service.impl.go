@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -10,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type UserServiceImpl struct {
@@ -67,12 +69,12 @@ func (uc *UserServiceImpl) UpdateUserById(id string, data *models.UpdateInput) (
 
 	query := bson.D{{Key: "_id", Value: obId}}
 	update := bson.D{{Key: "$set", Value: doc}}
-	result, err := uc.collection.UpdateOne(uc.ctx, query, update)
+	result := uc.collection.FindOneAndUpdate(uc.ctx, query, update, options.FindOneAndUpdate().SetReturnDocument(1))
 
-	fmt.Print(result.ModifiedCount)
-	if err != nil {
-		return &models.DBResponse{}, err
+	var updatedUser *models.DBResponse
+	if err := result.Decode(&updatedUser); err != nil {
+		return nil, errors.New("no document with that id exists")
 	}
 
-	return &models.DBResponse{}, nil
+	return updatedUser, nil
 }

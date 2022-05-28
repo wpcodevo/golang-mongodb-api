@@ -61,19 +61,11 @@ func (p *PostServiceImpl) UpdatePost(id string, data *models.UpdatePost) (*model
 	obId, _ := primitive.ObjectIDFromHex(id)
 	query := bson.D{{Key: "_id", Value: obId}}
 	update := bson.D{{Key: "$set", Value: doc}}
-	res, err := p.postCollection.UpdateOne(p.ctx, query, update)
-	if err != nil {
-		return nil, err
-	}
-
-	if res.MatchedCount == 0 {
-		return nil, errors.New("no post with that Id exists")
-	}
+	res := p.postCollection.FindOneAndUpdate(p.ctx, query, update, options.FindOneAndUpdate().SetReturnDocument(1))
 
 	var updatedPost *models.DBPost
-
-	if err = p.postCollection.FindOne(p.ctx, query).Decode(&updatedPost); err != nil {
-		return nil, err
+	if err := res.Decode(&updatedPost); err != nil {
+		return nil, errors.New("no post with that Id exists")
 	}
 
 	return updatedPost, nil
@@ -98,11 +90,20 @@ func (p *PostServiceImpl) FindPostById(id string) (*models.DBPost, error) {
 }
 
 func (p *PostServiceImpl) FindPosts(page int, limit int) ([]*models.DBPost, error) {
+	if page == 0 {
+		page = 1
+	}
+
+	if limit == 0 {
+		limit = 10
+	}
+
 	skip := (page - 1) * limit
 
 	opt := options.FindOptions{}
 	opt.SetLimit(int64(limit))
 	opt.SetSkip(int64(skip))
+	opt.SetSort(bson.M{"created_at": -1})
 
 	query := bson.M{}
 
@@ -115,7 +116,7 @@ func (p *PostServiceImpl) FindPosts(page int, limit int) ([]*models.DBPost, erro
 
 	var posts []*models.DBPost
 
-	if cursor.Next(p.ctx) {
+	for cursor.Next(p.ctx) {
 		post := &models.DBPost{}
 		err := cursor.Decode(post)
 

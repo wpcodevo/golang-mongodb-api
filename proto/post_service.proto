@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/wpcodevo/golang-mongodb/pb";
+import "post.proto";
+import "rpc_create_post.proto";
+import "rpc_update_post.proto";
+
+service PostService {
+  rpc CreatePost(CreatePostRequest) returns (PostResponse) {}
+  rpc GetPost(PostRequest) returns (PostResponse) {}
+  rpc GetPosts(GetPostsRequest) returns (stream Post) {}
+  rpc UpdatePost(UpdatePostRequest) returns (PostResponse) {}
+  rpc DeletePost(PostRequest) returns (DeletePostResponse) {}
+}
+
+message GetPostsRequest {
+  optional int64 page = 1;
+  optional int64 limit = 2;
+}
+
+message PostRequest { string Id = 1; }
+
+message DeletePostResponse { bool success = 1; }
