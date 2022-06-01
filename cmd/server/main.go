@@ -38,6 +38,7 @@ var (
 	AuthController      controllers.AuthController
 	AuthRouteController routes.AuthRouteController
 
+	// 👇 Create the Post Variables
 	postService         services.PostService
 	PostController      controllers.PostController
 	postCollection      *mongo.Collection
@@ -92,6 +93,7 @@ func init() {
 	UserController = controllers.NewUserController(userService)
 	UserRouteController = routes.NewRouteUserController(UserController)
 
+	// 👇 Instantiate the Constructors
 	postCollection = mongoclient.Database("golang_mongodb").Collection("posts")
 	postService = services.NewPostService(postCollection, ctx)
 	PostController = controllers.NewPostController(postService)
@@ -133,6 +135,7 @@ func startGrpcServer(config config.Config) {
 
 	pb.RegisterAuthServiceServer(grpcServer, authServer)
 	pb.RegisterUserServiceServer(grpcServer, userServer)
+	// 👇 Register the Post gRPC service
 	pb.RegisterPostServiceServer(grpcServer, postServer)
 	reflection.Register(grpcServer)
 
@@ -170,6 +173,7 @@ func startGinServer(config config.Config) {
 
 	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
+	// 👇 Post Route
 	PostRouteController.PostRoute(router)
 	log.Fatal(server.Run(":" + config.Port))
 }
