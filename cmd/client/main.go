@@ -88,19 +88,17 @@ func main() {
 	if false {
 		updatePostClient := client.NewUpdatePostClient(conn)
 
-		title := "My new updated title"
+		title := "My new updated title for my blog"
 		args := &pb.UpdatePostRequest{
-			Id: "629147ff3c92aed11d49394b",
-			Post: &pb.UpdatePostBody{
-				Title: &title,
-			},
+			Id:    "629169e00a6c7cfd24e2129d",
+			Title: &title,
 		}
 
 		updatePostClient.UpdatePost(args)
 	}
 
 	// Get Post
-	if true {
+	if false {
 		getPostClient := client.NewGetPostClient(conn)
 
 		args := &pb.PostRequest{

@@ -16,10 +16,10 @@ func (postServer *PostServer) UpdatePost(ctx context.Context, req *pb.UpdatePost
 	postId := req.GetId()
 
 	post := &models.UpdatePost{
-		Title:     req.Post.GetTitle(),
-		Content:   req.Post.GetContent(),
-		Image:     req.Post.GetImage(),
-		User:      req.Post.GetUser(),
+		Title:     req.GetTitle(),
+		Content:   req.GetContent(),
+		Image:     req.GetImage(),
+		User:      req.GetUser(),
 		UpdatedAt: time.Now(),
 	}
 
