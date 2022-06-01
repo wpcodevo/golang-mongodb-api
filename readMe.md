@@ -27,3 +27,7 @@
 ### 7. Build CRUD RESTful API Server with Golang, Gin, and MongoDB
 
 [Build CRUD RESTful API Server with Golang, Gin, and MongoDB](https://codevoweb.com/crud-restful-api-server-with-golang-and-mongodb)
+
+### 8. Build CRUD gRPC Server API & Client with Golang and MongoDB
+
+[Build CRUD gRPC Server API & Client with Golang and MongoDB](https://codevoweb.com/crud-grpc-server-api-client-with-golang-and-mongodb)
