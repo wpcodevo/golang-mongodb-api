@@ -27,10 +27,11 @@ var (
 	UserController      controllers.UserController
 	UserRouteController routes.UserRouteController
 
-	authCollection      *mongo.Collection
-	authService         services.AuthService
-	AuthController      controllers.AuthController
-	AuthRouteController routes.AuthRouteController
+	authCollection         *mongo.Collection
+	authService            services.AuthService
+	AuthController         controllers.AuthController
+	AuthRouteController    routes.AuthRouteController
+	SessionRouteController routes.SessionRouteController
 )
 
 func init() {
@@ -77,6 +78,7 @@ func init() {
 	authService = services.NewAuthService(authCollection, ctx)
 	AuthController = controllers.NewAuthController(authService, userService)
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
+	SessionRouteController = routes.NewSessionRouteController(AuthController)
 
 	UserController = controllers.NewUserController(userService)
 	UserRouteController = routes.NewRouteUserController(UserController)
@@ -108,5 +110,6 @@ func main() {
 
 	AuthRouteController.AuthRoute(router)
 	UserRouteController.UserRoute(router, userService)
+	SessionRouteController.SessionRoute(router)
 	log.Fatal(server.Run(":" + config.Port))
 }
