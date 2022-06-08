@@ -2,12 +2,14 @@ package services
 
 import (
 	"context"
+	"errors"
 	"strings"
 
 	"github.com/wpcodevo/golang-mongodb/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type UserServiceImpl struct {
@@ -51,4 +53,24 @@ func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, er
 	}
 
 	return user, nil
+}
+
+func (uc *UserServiceImpl) UpdateUser(id string, data *models.UpdateDBUser) (*models.DBResponse, error) {
+	doc, err := utils.ToDoc(data)
+	if err != nil {
+		return nil, err
+	}
+
+	obId, _ := primitive.ObjectIDFromHex(id)
+	query := bson.D{{Key: "_id", Value: obId}}
+	update := bson.D{{Key: "$set", Value: doc}}
+	res := uc.collection.FindOneAndUpdate(uc.ctx, query, update, options.FindOneAndUpdate().SetReturnDocument(1))
+
+	var updatedPost *models.DBResponse
+
+	if err := res.Decode(&updatedPost); err != nil {
+		return nil, errors.New("no post with that Id exists")
+	}
+
+	return updatedPost, nil
 }
