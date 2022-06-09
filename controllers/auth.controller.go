@@ -22,6 +22,7 @@ func NewAuthController(authService services.AuthService, userService services.Us
 	return AuthController{authService, userService}
 }
 
+// SignUp User
 func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 	var user *models.SignUpInput
 
@@ -45,6 +46,7 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "data": gin.H{"user": models.FilteredResponse(newUser)}})
 }
 
+// SignIn User
 func (ac *AuthController) SignInUser(ctx *gin.Context) {
 	var credentials *models.SignInInput
 
@@ -90,6 +92,7 @@ func (ac *AuthController) SignInUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "access_token": access_token})
 }
 
+// Refresh Access Token
 func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
 	message := "could not refresh access token"
 
@@ -164,23 +167,21 @@ func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 		UpdatedAt: createdAt,
 	}
 
-	_, err = ac.userService.UpsertUser(user.Email, resBody)
+	updatedUser, err := ac.userService.UpsertUser(user.Email, resBody)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 	}
 
-	fmt.Println(user.Email)
-
 	config, _ := config.LoadConfig(".")
 
 	// Generate Tokens
-	access_token, err := utils.CreateToken(config.AccessTokenExpiresIn, user.Id, config.AccessTokenPrivateKey)
+	access_token, err := utils.CreateToken(config.AccessTokenExpiresIn, updatedUser.ID.Hex(), config.AccessTokenPrivateKey)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	refresh_token, err := utils.CreateToken(config.RefreshTokenExpiresIn, user.Id, config.RefreshTokenPrivateKey)
+	refresh_token, err := utils.CreateToken(config.RefreshTokenExpiresIn, updatedUser.ID.Hex(), config.RefreshTokenPrivateKey)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return

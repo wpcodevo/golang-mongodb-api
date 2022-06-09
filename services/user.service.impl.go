@@ -22,6 +22,7 @@ func NewUserServiceImpl(collection *mongo.Collection, ctx context.Context) UserS
 	return &UserServiceImpl{collection, ctx}
 }
 
+// FindUserByID
 func (us *UserServiceImpl) FindUserById(id string) (*models.DBResponse, error) {
 	oid, _ := primitive.ObjectIDFromHex(id)
 
@@ -40,6 +41,7 @@ func (us *UserServiceImpl) FindUserById(id string) (*models.DBResponse, error) {
 	return user, nil
 }
 
+// FindUserByEmail
 func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, error) {
 	var user *models.DBResponse
 
@@ -56,6 +58,7 @@ func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, er
 	return user, nil
 }
 
+// UpsertUser
 func (uc *UserServiceImpl) UpsertUser(email string, data *models.UpdateDBUser) (*models.DBResponse, error) {
 	doc, err := utils.ToDoc(data)
 	if err != nil {
