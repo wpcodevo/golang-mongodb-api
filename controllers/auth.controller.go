@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wpcodevo/golang-mongodb/config"
@@ -147,6 +148,23 @@ func (ac *AuthController) GoogleOAuth(ctx *gin.Context) {
 
 	user, err := utils.GetGoogleUser(tokenRes.Access_token, tokenRes.Id_token)
 
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+	}
+
+	createdAt := time.Now()
+	resBody := &models.UpdateDBUser{
+		Email:     user.Email,
+		Name:      user.Name,
+		Photo:     user.Picture,
+		Provider:  "google",
+		Role:      "user",
+		Verified:  true,
+		CreatedAt: createdAt,
+		UpdatedAt: createdAt,
+	}
+
+	_, err = ac.userService.UpsertUser(user.Email, resBody)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 	}

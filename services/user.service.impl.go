@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/wpcodevo/golang-mongodb/models"
+	"github.com/wpcodevo/golang-mongodb/utils"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -55,16 +56,16 @@ func (us *UserServiceImpl) FindUserByEmail(email string) (*models.DBResponse, er
 	return user, nil
 }
 
-func (uc *UserServiceImpl) UpdateUser(id string, data *models.UpdateDBUser) (*models.DBResponse, error) {
+func (uc *UserServiceImpl) UpsertUser(email string, data *models.UpdateDBUser) (*models.DBResponse, error) {
 	doc, err := utils.ToDoc(data)
 	if err != nil {
 		return nil, err
 	}
 
-	obId, _ := primitive.ObjectIDFromHex(id)
-	query := bson.D{{Key: "_id", Value: obId}}
+	opts := options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(1)
+	query := bson.D{{Key: "email", Value: email}}
 	update := bson.D{{Key: "$set", Value: doc}}
-	res := uc.collection.FindOneAndUpdate(uc.ctx, query, update, options.FindOneAndUpdate().SetReturnDocument(1))
+	res := uc.collection.FindOneAndUpdate(uc.ctx, query, update, opts)
 
 	var updatedPost *models.DBResponse
 

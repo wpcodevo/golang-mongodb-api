@@ -29,6 +29,8 @@ func (uc *AuthServiceImpl) SignUpUser(user *models.SignUpInput) (*models.DBRespo
 	user.PasswordConfirm = ""
 	user.Verified = true
 	user.Role = "user"
+	user.Photo = "default.png"
+	user.Provider = "local"
 
 	hashedPassword, _ := utils.HashPassword(user.Password)
 	user.Password = hashedPassword
