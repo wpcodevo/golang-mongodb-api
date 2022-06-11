@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
-	"text/template"
 
 	"github.com/k3a/html2text"
 	"github.com/wpcodevo/golang-mongodb/config"
@@ -68,7 +68,6 @@ func SendEmail(user *models.DBResponse, data *EmailData, templateName string) er
 
 	template = template.Lookup(templateName)
 	template.Execute(&body, &data)
-	fmt.Println(template.Name())
 
 	m := gomail.NewMessage()
 
