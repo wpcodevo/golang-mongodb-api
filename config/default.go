@@ -25,6 +25,10 @@ type Config struct {
 	GoogleClientID         string `mapstructure:"GOOGLE_OAUTH_CLIENT_ID"`
 	GoogleClientSecret     string `mapstructure:"GOOGLE_OAUTH_CLIENT_SECRET"`
 	GoogleOAuthRedirectUrl string `mapstructure:"GOOGLE_OAUTH_REDIRECT_URL"`
+
+	GitHubClientID         string `mapstructure:"GITHUB_OAUTH_CLIENT_ID"`
+	GitHubClientSecret     string `mapstructure:"GITHUB_OAUTH_CLIENT_SECRET"`
+	GitHubOAuthRedirectUrl string `mapstructure:"GITHUB_OAUTH_REDIRECT_URL"`
 }
 
 func LoadConfig(path string) (config Config, err error) {

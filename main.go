@@ -118,5 +118,10 @@ func main() {
 	AuthRouteController.AuthRoute(router)
 	UserRouteController.UserRoute(router, userService)
 	SessionRouteController.SessionRoute(router)
+
+	server.NoRoute(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "error", "message": "Route Not Found"})
+	})
+
 	log.Fatal(server.Run(":" + config.Port))
 }

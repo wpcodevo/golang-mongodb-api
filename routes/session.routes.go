@@ -17,4 +17,5 @@ func (rc *SessionRouteController) SessionRoute(rg *gin.RouterGroup) {
 	router := rg.Group("/sessions/oauth")
 
 	router.GET("/google", rc.authController.GoogleOAuth)
+	router.GET("/github", rc.authController.GitHubOAuth)
 }
