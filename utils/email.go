@@ -3,10 +3,10 @@ package utils
 import (
 	"bytes"
 	"crypto/tls"
+	"html/template"
 	"log"
 	"os"
 	"path/filepath"
-	"text/template"
 
 	"github.com/k3a/html2text"
 	"github.com/wpcodevo/golang-mongodb/config"
