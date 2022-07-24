@@ -5,8 +5,6 @@ import (
 	"crypto/tls"
 	"html/template"
 	"log"
-	"os"
-	"path/filepath"
 
 	"github.com/k3a/html2text"
 	"github.com/wpcodevo/golang-mongodb/config"
@@ -21,27 +19,7 @@ type EmailData struct {
 }
 
 // 👇 Email template parser
-
-func ParseTemplateDir(dir string) (*template.Template, error) {
-	var paths []string
-	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() {
-			paths = append(paths, path)
-		}
-		return nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return template.ParseFiles(paths...)
-}
-
-func SendEmail(user *models.DBResponse, data *EmailData, templateName string) error {
+func SendEmail(user *models.DBResponse, data *EmailData, temp *template.Template, templateName string) error {
 	config, err := config.LoadConfig(".")
 
 	if err != nil {
@@ -58,12 +36,7 @@ func SendEmail(user *models.DBResponse, data *EmailData, templateName string) er
 
 	var body bytes.Buffer
 
-	template, err := ParseTemplateDir("templates")
-	if err != nil {
-		log.Fatal("Could not parse template", err)
-	}
-
-	if err := template.ExecuteTemplate(&body, templateName, &data); err != nil {
+	if err := temp.ExecuteTemplate(&body, templateName, &data); err != nil {
 		log.Fatal("Could not execute template", err)
 	}
 

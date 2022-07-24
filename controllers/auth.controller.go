@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strings"
@@ -23,10 +24,11 @@ type AuthController struct {
 	userService services.UserService
 	ctx         context.Context
 	collection  *mongo.Collection
+	temp        *template.Template
 }
 
-func NewAuthController(authService services.AuthService, userService services.UserService, ctx context.Context, collection *mongo.Collection) AuthController {
-	return AuthController{authService, userService, ctx, collection}
+func NewAuthController(authService services.AuthService, userService services.UserService, ctx context.Context, collection *mongo.Collection, temp *template.Template) AuthController {
+	return AuthController{authService, userService, ctx, collection, temp}
 }
 
 func (ac *AuthController) SignUpUser(ctx *gin.Context) {
@@ -79,7 +81,7 @@ func (ac *AuthController) SignUpUser(ctx *gin.Context) {
 		Subject:   "Your account verification code",
 	}
 
-	err = utils.SendEmail(newUser, &emailData, "verificationCode.html")
+	err = utils.SendEmail(newUser, &emailData, ac.temp, "verificationCode.html")
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "success", "message": "There was an error sending email"})
 		return
@@ -269,7 +271,7 @@ func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
 		Subject:   "Your password reset token (valid for 10min)",
 	}
 
-	err = utils.SendEmail(user, &emailData, "resetPassword.html")
+	err = utils.SendEmail(user, &emailData, ac.temp, "resetPassword.html")
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "success", "message": "There was an error sending email"})
 		return

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
@@ -32,9 +33,12 @@ var (
 	authService         services.AuthService
 	AuthController      controllers.AuthController
 	AuthRouteController routes.AuthRouteController
+
+	temp *template.Template
 )
 
 func init() {
+	temp = template.Must(template.ParseGlob("templates/*.html"))
 	config, err := config.LoadConfig(".")
 	if err != nil {
 		log.Fatal("Could not load environment variables", err)
@@ -76,7 +80,7 @@ func init() {
 	authCollection = mongoclient.Database("golang_mongodb").Collection("users")
 	userService = services.NewUserServiceImpl(authCollection, ctx)
 	authService = services.NewAuthService(authCollection, ctx)
-	AuthController = controllers.NewAuthController(authService, userService, ctx, authCollection)
+	AuthController = controllers.NewAuthController(authService, userService, ctx, authCollection, temp)
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 
 	UserController = controllers.NewUserController(userService)
