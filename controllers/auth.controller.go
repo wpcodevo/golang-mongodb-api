@@ -266,7 +266,7 @@ func (ac *AuthController) ForgotPassword(ctx *gin.Context) {
 
 	// 👇 Send Email
 	emailData := utils.EmailData{
-		URL:       config.Origin + "/forgotPassword/" + resetToken,
+		URL:       config.Origin + "/resetpassword/" + resetToken,
 		FirstName: firstName,
 		Subject:   "Your password reset token (valid for 10min)",
 	}
