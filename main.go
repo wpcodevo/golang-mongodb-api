@@ -107,7 +107,7 @@ func main() {
 	}
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{config.Origin}
+	corsConfig.AllowOrigins = []string{config.Origin, "http://127.0.0.1:3000"}
 	corsConfig.AllowCredentials = true
 
 	server.Use(cors.New(corsConfig))
