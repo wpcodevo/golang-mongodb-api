@@ -1,4 +1,23 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  API with Golang, Gin Gonic & MongoDB: Forget/Reset Password
+
+In this article, you'll learn how to implement forget/reset password functionality with Golang, Gin Gonic, Gomail, MongoDB-Go-driver, Redis, and Docker-compose. 
+
+![API with Golang, Gin Gonic & MongoDB: Forget/Reset Password](https://codevoweb.com/wp-content/uploads/2022/05/API-with-Golang-Gin-Gonic-MongoDB-Forget-Reset-Password.webp)
+
+## Topics Covered
+
+- Forget/Reset Password with Golang, Gin, and MongoDB
+- Create the MongoDB Model Structs
+- Create the HTML Email Templates with Golang
+- Define a Utility Function to Parse the HTML Templates
+- Create a Function to Send the HTML Emails
+- Add the Forgot Password Controller
+- Add the Reset Password Controller
+- Register the Gin API Routes
+
+Read the entire article here: [https://codevoweb.com/api-golang-gin-gonic-mongodb-forget-reset-password](https://codevoweb.com/api-golang-gin-gonic-mongodb-forget-reset-password)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
