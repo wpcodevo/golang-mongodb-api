@@ -1,4 +1,41 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  Golang & MongoDB: JWT Authentication and Authorization
+
+In this article, you'll learn how to implement RS256 JWT (JSON Web Token) Authentication and Authorization with Golang, Gin Gonic, MongoDB-Go-driver, and Docker-compose.
+
+![Golang & MongoDB: JWT Authentication and Authorization](https://codevoweb.com/wp-content/uploads/2022/05/Golang-and-MongoDB-JWT-Authentication-and-Authorization.webp)
+
+## Topics Covered
+
+- Golang & MongoDB JWT Authentication Overview
+- JWT Authentication Example with Golang and MongoDB
+- How to Generate Public and Private Keys
+- Update Environment Variables with Viper
+- Creating the User models with structs
+- Creating an Auth and User Interfaces
+    - Authentication Interface
+    - User Interface
+- Create utility functions to hash and verify password
+- Create services that interact with the database
+    - Auth interface implementation
+    - User interface implementation
+- Create a utility function to sign and verify JWT tokens
+    - Create Json Web Token
+    - Verify JSON Web Token
+- Create the authentication controllers
+    - Signup user controller
+    - Login user controller
+    - Refresh access token controller
+    - Logout user controller
+- Authentication Middleware Guard
+- Create the user controllers
+- Create API Routes with Gin
+    - Auth Routes
+    - User Routes
+- Add the Routes to the Gin Middleware Pipeline
+
+Read the entire article here: [https://codevoweb.com/golang-mongodb-jwt-authentication-authorization](https://codevoweb.com/golang-mongodb-jwt-authentication-authorization)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
