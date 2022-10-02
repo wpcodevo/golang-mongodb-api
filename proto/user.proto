@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/wpcodevo/golang-mongodb/pb";
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string role = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message UserResponse { User user = 1; }
+
+message GenericResponse {
+  string status = 1;
+  string message = 2;
+}
