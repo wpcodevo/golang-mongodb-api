@@ -1,4 +1,25 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  Build Golang gRPC Server and Client: Access & Refresh Tokens
+
+In this article, you'll learn how to implement JWT access and refresh tokens with gRPC using Golang, MongoDB-Go-driver, Gomail, Docker, and Docker-compose.
+
+![Build Golang gRPC Server and Client: Access & Refresh Tokens](https://codevoweb.com/wp-content/uploads/2022/05/Build-Golang-gRPC-Server-and-Client-Access-Refresh-Tokens.webp)
+
+## Topics Covered
+
+- Create the gRPC Request and Response Messages
+    - Create the gRPC User messages
+    - Define the gRPC Request and Response Message to Login User
+    - Update the Authentication gRPC Service
+    - Create a gRPC User Service
+- Create the gRPC Controllers
+- Create the gRPC Servers
+- Register the gRPC Servers
+- Create the gRPC Clients in Golang
+- Connect the gRPC Client to the gRPC Server
+
+Read the entire article here: [https://codevoweb.com/golang-grpc-server-and-client-access-refresh-tokens](https://codevoweb.com/golang-grpc-server-and-client-access-refresh-tokens)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
