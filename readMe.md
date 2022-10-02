@@ -1,4 +1,43 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  Build CRUD gRPC Server API & Client with Golang and MongoDB
+
+In this article, you'll learn how to build a CRUD gRPC API server with Golang, MongoDB-Go-driver, and Docker-compose. You'll also build a gRPC client to interact with the gRPC API.
+
+![Build CRUD gRPC Server API & Client with Golang and MongoDB](https://codevoweb.com/wp-content/uploads/2022/06/Build-CRUD-gRPC-Server-API-Client-with-Golang-and-MongoDB.webp)
+
+## Topics Covered
+
+- Define the Models with Structs
+- Create the ProtoBuf Messages
+- Define the gRPC Service and RPC Methods
+- Define a Custom Service Interface
+- Create Methods to Implement the Service Interface
+    - Create a Constructor to Implement the Service Interface
+    - Create a new Post
+    - Update a Post
+    - Find a Post
+    - Retrieve All Posts
+    - Delete a Post
+- Define the gRPC Controllers
+- Register the gRPC Services and Start the gRPC Server
+- Test the gRPC API Server with Evans CLI
+- Create the gRPC API Handlers in Golang
+    - CreatePost gRPC Handler
+    - UpdatePost gRPC Service Handler
+    - GetPost gRPC Service Handler 
+    - DeletePost gRPC Service Handler
+    - GetPosts gRPC Service Handler
+- Testing the gRPC Services with Evans Cli
+- Create the gRPC Clients
+    - gRPC Client to Create a Post
+    - gRPC Client to Update a Post
+    - gRPC Client to Get a Single Post
+    - gRPC Client to Get All Posts
+    - gRPC Client to Delete a Post
+- Register the gRPC Services
+
+Read the entire article here: [https://codevoweb.com/crud-grpc-server-api-client-with-golang-and-mongodb](https://codevoweb.com/crud-grpc-server-api-client-with-golang-and-mongodb)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
