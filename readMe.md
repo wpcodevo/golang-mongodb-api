@@ -1,4 +1,21 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
+
+In this article, you'll learn how to set up a Golang application with MongoDB-Go-driver, Gin Gonic, and Go Redis. Later, we'll access both the Redis and MongoDB databases directly in VS Code using a MySQL VS Code extension.
+
+![API with Golang + MongoDB + Redis + Gin Gonic: Project Setup](https://codevoweb.com/wp-content/uploads/2022/05/API-with-Golang-MongoDB-Redis-and-Gin-Gonic-Project-Setup.webp)
+
+## Topics Covered
+
+- Setup Golang with MongoDB and Redis
+- Creating MongoDB and Redis Database with Docker-compose
+- Setup Environment Variables
+- How to Connect Golang App to Redis and MongoDB
+- Test the Golang API
+- How to Connect to MongoDB and Redis Servers in VS Code
+
+Read the entire article here: [https://codevoweb.com/api-golang-mongodb-gin-gonic-project-setup](https://codevoweb.com/api-golang-mongodb-gin-gonic-project-setup)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
