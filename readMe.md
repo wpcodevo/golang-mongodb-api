@@ -1,4 +1,34 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  Build CRUD RESTful API Server with Golang, Gin, and MongoDB
+
+In this article, you'll learn how to build a CRUD RESTful API server with Golang, Gin Gonic, MongoDB-Go-driver, Docker, and Docker-compose.
+
+![Build CRUD RESTful API Server with Golang, Gin, and MongoDB](https://codevoweb.com/wp-content/uploads/2022/05/Build-CRUD-RESTful-API-Server-with-Golang-Gin-and-MongoDB.webp)
+
+## Topics Covered
+
+- Golang, Gin Gonic, MongoDB CRUD RESTful API Overview
+- Create the Models with Structs
+- Create the Service Interface
+- Create Methods to Implement the Interface
+    - Initialize the Service Struct
+    - Define a Service to Create a Post
+    - Define a Service to Update Post
+    - Define a Service to Delete Post
+    - Define a Service to Get Single Post
+    - Define a Service to Get All Posts
+- Create Controllers to Perform the CRUD Operations
+    - Initialize the Controller Struct
+    - Define a Controller to Create a Post
+    - Define a Controller to Update a Post
+    - Define a Controller to Delete a Post
+    - Define a Controller to Get a Single Post
+    - Define a Controller to Get All Posts
+- Create the Routes for the Controllers
+- Initialize the Constructors and Start the Gin Server
+
+Read the entire article here: [https://codevoweb.com/crud-restful-api-server-with-golang-and-mongodb](https://codevoweb.com/crud-restful-api-server-with-golang-and-mongodb)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
