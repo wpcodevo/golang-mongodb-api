@@ -1,4 +1,27 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  Build Golang gRPC Server and Client: SignUp User & Verify Email
+
+In this article, you'll learn how to create a gRPC server to register a user and verify their email address using Golang, MongoDB-Go-driver, Gomail, and Docker-compose. 
+
+![Build Golang gRPC Server and Client: SignUp User & Verify Email](https://codevoweb.com/wp-content/uploads/2022/05/Build-Golang-gRPC-Server-and-Client-SignUp-User-Verify-Email.webp)
+
+## Topics Covered
+
+- gRPC Project setup in Golang
+- Create the gRPC Request and Response Messages
+    - Define the gRPC User messages
+    - Define the gRPC Request and Response Message to SignUp User
+- Create the gRPC Service Methods
+- Generate the gRPC client and server interfaces
+- Start the gRPC Server
+- Test the gRPC API Server with Golang Evans
+- Create the gRPC API Controllers
+    - Register User gRPC Controller
+    - Verify User gRPC Controller
+- Create the gRPC Client to Register a User
+
+Read the entire article here: [https://codevoweb.com/golang-grpc-server-and-client-signup-user-verify-email](https://codevoweb.com/golang-grpc-server-and-client-signup-user-verify-email)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
