@@ -1,4 +1,21 @@
-# CRUD RESTful API with Golang + MongoDB + Redis + Gin Gonic
+#  API with Golang + MongoDB: Send HTML Emails with Gomail
+
+In this article, you'll learn how to send HTML emails with Golang, Gomail, MongoDB-Go-Driver, Redis, and Docker-compose. Also, you'll learn how to generate HTML templates with the standard Golang html/template package.
+
+![API with Golang + MongoDB: Send HTML Emails with Gomail](https://codevoweb.com/wp-content/uploads/2022/05/API-with-Golang-MongoDB-Send-HTML-Emails-with-Gomail.webp)
+
+## Topics Covered
+
+- Send Emails with Golang, MongoDB, and Gomail Overview
+- Creating the HTML Email Templates with Golang
+- Create an SMTP Provider Account
+- Load and Validate Environment Variables Viper
+- Create a Utility Function to Send the Emails
+- Update the SignUp Controller
+
+Read the entire article here: [https://codevoweb.com/api-golang-mongodb-send-html-emails-gomail](https://codevoweb.com/api-golang-mongodb-send-html-emails-gomail)
+
+Articles in this series:
 
 ### 1. API with Golang + MongoDB + Redis + Gin Gonic: Project Setup
 
