@@ -71,7 +71,7 @@ func main() {
 	}
 
 	// Create Post
-	if false {
+	if true {
 		createPostClient := client.NewCreatePostClient(conn)
 
 		args := &pb.CreatePostRequest{

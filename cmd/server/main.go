@@ -111,8 +111,12 @@ func main() {
 
 	defer mongoclient.Disconnect(ctx)
 
-	// startGinServer(config)
-	startGrpcServer(config)
+	// Start gRPC server in a separate goroutine
+	go startGrpcServer(config)
+
+	// Start Gin server in the main goroutine
+	startGinServer(config)
+
 }
 
 func startGrpcServer(config config.Config) {
